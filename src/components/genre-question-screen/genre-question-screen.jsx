@@ -1,12 +1,21 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
+import {GameType} from "../../const.js";
 
 class GenreQuestionScreen extends React.PureComponent {
   constructor(props) {
     super(props);
+
+    this.state = {
+      answers: [false, false, false, false],
+    };
   }
 
   render() {
+    const {onAnswer, question} = this.props;
+    const {answers: userAnswers} = this.state;
+    const {answers, genre} = question;
+
     return (
       <section className="game game--genre">
         <header className="game__header">
@@ -17,7 +26,7 @@ class GenreQuestionScreen extends React.PureComponent {
 
           <svg xmlns="http://www.w3.org/2000/svg" className="timer" viewBox="0 0 780 780">
             <circle className="timer__line" cx="390" cy="390" r="370"
-              style="filter: url(#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"/>
+              style={{filter: `url(#blur)`, transform: `rotate(-90deg) scaleY(-1)`, transformOrigin: `center`}}/>
           </svg>
 
           <div className="game__mistakes">
@@ -28,8 +37,8 @@ class GenreQuestionScreen extends React.PureComponent {
         </header>
 
         <section className="game__screen">
-          <h2 className="game__title">Выберите инди-рок треки</h2>
-          <form className="game__tracks">
+          <h2 className="game__title">Выберите {genre} треки</h2>
+          {/* <form className="game__tracks">
             <div className="track">
               <button className="track__button track__button--play" type="button"></button>
               <div className="track__status">
@@ -75,11 +84,23 @@ class GenreQuestionScreen extends React.PureComponent {
             </div>
 
             <button className="game__submit button" type="submit">Ответить</button>
-          </form>
+          </form> */}
         </section>
       </section>
     );
   }
 }
+
+GenreQuestionScreen.propTypes = {
+  onAnswer: PropTypes.func.isRequired,
+  question: PropTypes.shape({
+    answer: PropTypes.arrayOf(PropTypes.shape({
+      src: PropTypes.string.isRequired,
+      genre: PropTypes.string.isRequired
+    })).isRequired,
+    genre: PropTypes.string.isRequired,
+    type: PropTypes.oneOf([GameType.ARTIST, GameType.GENRE]).isRequired
+  }).isRequired
+};
 
 export default GenreQuestionScreen;

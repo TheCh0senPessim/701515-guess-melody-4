@@ -42,7 +42,7 @@ class GenreQuestionScreen extends React.PureComponent {
             className="game__tracks"
             onSubmit={(evt) => {
               evt.preventDefault();
-              onAnswer(question, this.state.answer);
+              onAnswer(question, this.state.answers);
             }}
           >
             {answers.map((answer, i) => (
